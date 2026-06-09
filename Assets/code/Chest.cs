@@ -1,55 +1,71 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem; // Tambahkan ini di paling atas!
 
 public class Chest : MonoBehaviour
 {
-    [SerializeField] private int costToOpen = 10;
-    [SerializeField] private List<string> itemPool = new List<string> { "Pedang Emas", "Perisai Kayu", "Ramuan Merah", "Topi Sihir" };
-    
+    [Header("Pengaturan Peti")]
+    public int openPrice = 10;
+    public List<ItemData> lootTable; 
+    public Sprite openedChestSprite; 
+
     private bool isOpened = false;
+    private bool isPlayerNearby = false; 
 
-    // Fungsi yang dipanggil saat player berinteraksi dengan peti
-    public void InteractWithChest()
+    private void Update()
     {
-        if (isOpened)
-        {
-            Debug.Log("Peti ini sudah kosong.");
-            return;
-        }
-
-        // Cek apakah poin cukup dan potong langsung jika cukup
-        if (GameManager.Instance.SpendPoints(costToOpen))
+        // Menggunakan New Input System untuk mendeteksi tombol E di keyboard
+        if (isPlayerNearby && !isOpened && Keyboard.current.eKey.wasPressedThisFrame)
         {
             OpenChest();
         }
+    }
+
+    public void OpenChest()
+    {
+        if (PlayerManager.Instance != null && PlayerManager.Instance.SpendPoints(openPrice))
+        {
+            isOpened = true;
+            Debug.Log("Peti Berhasil Terbuka!");
+
+            if (lootTable != null && lootTable.Count > 0)
+            {
+                int randomIndex = Random.Range(0, lootTable.Count);
+                ItemData itemDapat = lootTable[randomIndex];
+                Debug.Log("Kamu mendapatkan item: " + itemDapat.itemName);
+
+                if (CollectionManager.Instance != null)
+                {
+                    CollectionManager.Instance.AddToCollection(itemDapat);
+                }
+            }
+
+            if (openedChestSprite != null)
+            {
+                GetComponent<SpriteRenderer>().sprite = openedChestSprite;
+            }
+        }
         else
         {
-            Debug.Log("Poin kamu tidak cukup untuk membuka peti ini!");
+            Debug.Log("Poin kurang atau PlayerManager belum siap.");
         }
     }
 
-    private void OpenChest()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        isOpened = true;
-
-        // Ambil item secara random dari list
-        int randomIndex = Random.Range(0, itemPool.Count);
-        string gachaItem = itemPool[randomIndex];
-
-        Debug.Log($"Peti terbuka! Kamu mendapatkan: {gachaItem}");
-
-        // Transfer item yang didapat ke sistem koleksi di GameManager
-        GameManager.Instance.AddItemToCollection(gachaItem);
-
-        // Opsional: Matikan visual peti atau putar animasi buka peti
-        GetComponent<Collider>().enabled = false; // Biar ga bisa diinteraksi lagi
-        // Destroy(gameObject); // Atau hancurkan objeknya jika mau langsung hilang
+        if (collision.CompareTag("player"))
+        {
+            isPlayerNearby = true;
+            Debug.Log("Player dekat peti. Tekan 'E' untuk membuka.");
+        }
     }
 
-    // Hanya untuk testing di Inspector Unity
-    [ContextMenu("Test Open Chest")]
-    private void TestOpen()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        InteractWithChest();
+        if (collision.CompareTag("player"))
+        {
+            isPlayerNearby = false;
+            Debug.Log("Player menjauh.");
+        }
     }
 }

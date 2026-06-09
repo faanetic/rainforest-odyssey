@@ -114,14 +114,22 @@ public class CharacterStats : MonoBehaviour
 
     private void HancurAtauMati()
     {
-        Debug.Log(gameObject.name + " telah mati!");
-        if (gameObject.CompareTag("Player"))
+    Debug.Log(gameObject.name + " telah mati!");
+    if (gameObject.CompareTag("Player"))
+    {
+        gameObject.SetActive(false);
+    }
+    else
+    {
+        // === TAMBAHKAN KODE INI ===
+        // Memanggil PlayerManager untuk menambah 10 poin saat monster mati
+        if (PlayerManager.Instance != null)
         {
-            gameObject.SetActive(false);
+            PlayerManager.Instance.AddPoints(5); 
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        // ==========================
+
+        Destroy(gameObject);
+    }
     }
 }

@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9abb7fac0b86b4c8a2d7aa9c2391ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::movement
-  speed: 5
+  speed: 3
   rb: {fileID: 6593136676323353813}
   anim: {fileID: 4492665235059835112}
   facingDirection: 1
@@ -217,10 +217,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   maxHealth: 100
   currentHealth: 0
-  damageBawaan: 25
-  kekuatanKnockback: 5
-  durasiKnockback: 0.2
-  durasiImun: 0.5
+  damageBawaan: 0
+  kekuatanKnockback: 3
+  durasiKnockback: 0.7
+  durasiImun: 1
   apakahImun: 0
   spriteKarakter: {fileID: 0}
   kecepatanKedip: 0.1

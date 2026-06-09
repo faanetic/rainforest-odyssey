@@ -182,10 +182,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   maxHealth: 100
   currentHealth: 0
-  damageBawaan: 10
-  kekuatanKnockback: 5
-  durasiKnockback: 0.2
-  durasiImun: 0
+  damageBawaan: 20
+  kekuatanKnockback: 3
+  durasiKnockback: 0.7
+  durasiImun: 0.3
   apakahImun: 0
   spriteKarakter: {fileID: 0}
   kecepatanKedip: 0.1
@@ -202,9 +202,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 3
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
