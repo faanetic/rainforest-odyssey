@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 970e83f5ad495ab499a9e4a990ec5d7b
+guid: 2c124ad46d8629446b247da67d59a0d8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4840237254561571183
-    second: Mute_0
-  - first:
-      213: -679273813856026339
-    second: Mute_1
+      213: -6611185609105092158
+    second: Volume on_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -103,45 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mute_0
+      name: Volume on_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
-        width: 9
+        width: 15
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 6, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6121ca632afb2340800000000000000
-      internalID: 4840237254561571183
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Mute_1
-      rect:
-        serializedVersion: 2
-        x: 8
-        y: 4
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d1103e3b01cb296f0800000000000000
-      internalID: -679273813856026339
+      spriteID: 2c1dd1157b95044a0800000000000000
+      internalID: -6611185609105092158
       vertices: []
       indices: 
       edges: []
@@ -150,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 8c0cfb17767d38c4fa3889addc3383af
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Mute_0: 4840237254561571183
-      Mute_1: -679273813856026339
+      Volume on_0: -6611185609105092158
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
