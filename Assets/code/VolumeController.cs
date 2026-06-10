@@ -3,15 +3,17 @@ using UnityEngine.UI;
 
 public class VolumeController : MonoBehaviour
 {
-    public AudioSource bgmAudio;
-    
-    // Tambahan baru: Wadah untuk mengenali komponen Slider
+    private AudioSource bgmAudio; 
     public Slider volumeSlider; 
 
-    // Fungsi Start akan otomatis dipanggil sekali saat objek ini aktif/game dimulai
     void Start()
     {
-        // Membaca volume lagu saat ini, lalu menyesuaikan posisi knop slider
+        GameObject objekMusik = GameObject.Find("BG_Homescreen");
+        if (objekMusik != null)
+        {
+            bgmAudio = objekMusik.GetComponent<AudioSource>();
+        }
+
         if (bgmAudio != null && volumeSlider != null)
         {
             volumeSlider.value = Mathf.Sqrt(bgmAudio.volume) * 50f;
@@ -20,7 +22,14 @@ public class VolumeController : MonoBehaviour
 
     public void AturVolume(float nilaiVolume)
     {
-        float volumeNormal = nilaiVolume / 50f; 
-        bgmAudio.volume = volumeNormal * volumeNormal; 
+        if (bgmAudio != null) 
+        {
+            float volumeNormal = nilaiVolume / 50f; 
+            bgmAudio.volume = volumeNormal * volumeNormal; 
+            
+            // BARIS BARU: Simpan volume ini secara permanen dengan nama "VolumeGlobal"
+            PlayerPrefs.SetFloat("VolumeGlobal", bgmAudio.volume);
+            PlayerPrefs.Save();
+        }
     }
 }
