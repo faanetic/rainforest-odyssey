@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "rainforest odyssey.slnx",
+    "dotnet.defaultSolution": "rainforest-odyssey.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }
