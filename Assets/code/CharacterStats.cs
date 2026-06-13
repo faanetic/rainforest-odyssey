@@ -114,22 +114,38 @@ public class CharacterStats : MonoBehaviour
 
     private void HancurAtauMati()
     {
-    Debug.Log(gameObject.name + " telah mati!");
-    if (gameObject.CompareTag("Player"))
-    {
-        gameObject.SetActive(false);
-    }
-    else
-    {
-        // === TAMBAHKAN KODE INI ===
-        // Memanggil PlayerManager untuk menambah 10 poin saat monster mati
-        if (PlayerManager.Instance != null)
+        Debug.Log(gameObject.name + " telah mati!");
+        
+        if (gameObject.CompareTag("Player") || gameObject.name.ToLower().Contains("player"))
         {
-            PlayerManager.Instance.AddPoints(5); 
-        }
-        // ==========================
+            // Panggil DeathManager untuk memproses efek ala Dark Souls
+            DeathManager deathManager = FindObjectOfType<DeathManager>();
+            if (deathManager != null)
+            {
+                deathManager.ProsesKematianPlayer();
+            }
+            else
+            {
+                Debug.LogError("DeathManager tidak ditemukan di Scene! Pastikan GameObject DeathManagerObject sudah dibuat.");
+            }
+            
+            // Sembunyikan visual player, jangan pakai Destroy agar script coroutine kematian tetap berjalan
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            if (sr != null) sr.enabled = false;
 
-        Destroy(gameObject);
-    }
+            movement moveScript = GetComponent<movement>();
+            if (moveScript != null) moveScript.enabled = false;
+
+            PlayerAttack attackScript = GetComponent<PlayerAttack>();
+            if (attackScript != null) attackScript.enabled = false;
+        }
+        else
+        {
+            if (PlayerManager.Instance != null)
+            {
+                PlayerManager.Instance.AddPoints(5); 
+            }
+            Destroy(gameObject);
+        }
     }
 }

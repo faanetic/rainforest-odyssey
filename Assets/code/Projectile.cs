@@ -12,9 +12,12 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // PERBAIKAN: Pastikan peluru HANYA merespon objek dengan Tag "Enemy"
+        // 1. JIKA MENABRAK MUSUH
         if (collision.CompareTag("Enemy"))
         {
+            // Cek pencegahan jika objek ber-tag Enemy ini adalah area Spawner
+            if (collision.GetComponent<EnemySpawner>() != null) return; 
+
             CharacterStats statEnemy = collision.GetComponent<CharacterStats>();
             if (statEnemy != null)
             {
@@ -22,8 +25,17 @@ public class Projectile : MonoBehaviour
                 statEnemy.TerimaDamage(damagePeluru, arahDorong);
             }
 
-            // Peluru hancur karena berhasil mengenai musuh
-            Destroy(gameObject);
+            Destroy(gameObject); // Hancurkan peluru
+        }
+        // 2. JIKA MENABRAK OBJEK SOLID LAINNYA (Dinding, Batas Map, Obstacle)
+        else
+        {
+            // Pastikan objek solid yang ditabrak BUKAN area trigger (seperti spawner/item pick-up)
+            // Peluru hanya akan hancur jika menabrak collider fisik yang keras (Dinding/Dunia)
+            if (collision.isTrigger == false)
+            {
+                Destroy(gameObject); // Peluru hancur menabrak dinding map
+            }
         }
     }
 }

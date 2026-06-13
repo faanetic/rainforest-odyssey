@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Wajib untuk mendeteksi kursor dan klik mouse
+using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -8,51 +8,44 @@ public class PlayerAttack : MonoBehaviour
     public Transform titikTembak; 
     public float kecepatanPeluru = 12f;
 
+    [Header("Pengaturan Jeda (Cooldown)")]
+    public float jedaTembakan = 0.5f; // Player hanya bisa menembak setiap 0.5 detik sekali
+    private float waktuTembakBerikutnya = 0f;
+
     private movement scriptGerak; 
     private Camera mainCamera;
 
     void Start()
     {
         scriptGerak = GetComponent<movement>();
-        // Mengambil referensi kamera utama untuk konversi koordinat posisi mouse
         mainCamera = Camera.main;
     }
 
     void Update()
     {
-        // Deteksi Klik Kiri Mouse lewat Input System baru
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        // Deteksi Klik Kiri Mouse + periksa apakah waktu tunggu cooldown sudah selesai
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame && Time.time >= waktuTembakBerikutnya)
         {
             Tembak();
+            // Perbarui waktu kapan player boleh menembak lagi di frame masa depan
+            waktuTembakBerikutnya = Time.time + jedaTembakan;
         }
     }
 
     void Tembak()
     {
-        // Jika player sedang terkena knockback (script movement mati), batalkan tembakan
         if (scriptGerak != null && !scriptGerak.enabled) return;
-
         if (prefabPeluru == null || mainCamera == null) return;
 
-        // 1. Ambil posisi kursor mouse di layar (dalam piksel)
         Vector2 posisiMouseLayar = Mouse.current.position.ReadValue();
-
-        // 2. Konversi posisi piksel layar menjadi koordinat dunia 2D game
         Vector3 posisiMouseDunia = mainCamera.ScreenToWorldPoint(new Vector3(posisiMouseLayar.x, posisiMouseLayar.y, transform.position.z));
-
-        // 3. Tentukan titik kemunculan peluru
         Transform tempatMuncul = titikTembak != null ? titikTembak : transform;
 
-        // 4. Hitung arah dari titik tembak menuju posisi kursor mouse
         Vector2 arahTembak = ((Vector2)posisiMouseDunia - (Vector2)tempatMuncul.position).normalized;
-
-        // 5. Hitung sudut rotasi agar sprite peluru menghadap ke arah kursor (tidak miring kaku)
         float sudutRotasi = Mathf.Atan2(arahTembak.y, arahTembak.x) * Mathf.Rad2Deg;
 
-        // 6. Munculkan peluru dengan rotasi yang sudah disesuaikan menuju kursor
         GameObject peluruBaru = Instantiate(prefabPeluru, tempatMuncul.position, Quaternion.Euler(0, 0, sudutRotasi));
 
-        // 7. Berikan kecepatan gerak pada peluru sesuai arah kursor
         Rigidbody2D rbPeluru = peluruBaru.GetComponent<Rigidbody2D>();
         if (rbPeluru != null)
         {
