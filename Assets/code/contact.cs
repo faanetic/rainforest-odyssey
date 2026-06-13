@@ -26,7 +26,15 @@ public class CombatContact : MonoBehaviour
                 statPlayer.TerimaDamage(statEnemy.damageBawaan, arahKnockback);
 
                 // 3. OPSIONAL: Enemy juga sedikit terpental mundur saat menabrak player agar tidak menyatu kaku
-        
+                
+                // --- KODE TAMBAHAN: MEMUTAR SUARA HIT ---
+                // Mencari script PlayerHurtAudio di objek Player yang baru saja ditabrak
+                PlayerHurtAudio playerAudio = collision.gameObject.GetComponent<PlayerHurtAudio>();
+                if (playerAudio != null)
+                {
+                    // Memanggil fungsi untuk membunyikan suara rintihan/hit
+                    playerAudio.MainkanSuaraTerserang();
+                }
             }
         }
     }
