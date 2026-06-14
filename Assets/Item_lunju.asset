@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Lunju
   itemIcon: {fileID: -4745237664472261435, guid: 174ec04be1d769945a7d7aec852ef239, type: 3}
+  itemDescription: Lunju adalah senjata tradisional jenis tombak khas suku Dayak
+    yang memiliki ujung sangat panjang dan runcing. Senjata dengan panjang total
+    berkisar antara 1,5 hingga 2 meter ini memiliki mata tombak dari besi tempa (seperti
+    besi mantikei) berbentuk belah ketupat yang diikat kuat pada gagang bambu atau
+    kayu keras menggunakan anyaman rotan.

@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Talawang
   itemIcon: {fileID: -8742128893983616040, guid: 306e059da2862874a877f4cec2bf5a49, type: 3}
+  itemDescription: Talawang adalah perisai atau tameng tradisional khas suku Dayak
+    yang berbentuk persegi panjang dengan ujung atas dan bawah yang meruncing, berfungsi
+    sebagai alat pertahanan utama untuk menangkis serangan senjata musuh. Terbuat
+    dari kayu yang kuat namun ringan seperti kayu ulin, perisai ini dihiasi dengan
+    ukiran bermotif sakral seperti burung enggang atau naga yang dipercaya memberikan
+    perlindungan magis serta membangkitkan keberanian prajurit.

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5258861405768815194}
   - component: {fileID: 9033729797903740435}
   - component: {fileID: 7014177242049695035}
+  - component: {fileID: 7989208910738251405}
   m_Layer: 5
   m_Name: Item_Slot
   m_TagString: Untagged
@@ -75,3 +76,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7989208910738251405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2446631954719179345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be2551ac43687144e817b58be6f30ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GallerySlot

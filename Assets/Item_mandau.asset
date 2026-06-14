@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Mandau
   itemIcon: {fileID: 7983240602604717321, guid: 0b25b858385716c4e8ecf51048e95d22, type: 3}
+  itemDescription: Mandau adalah senjata tradisional dan pusaka khas suku Dayak di
+    Kalimantan yang berbentuk parang satu sisi tajam, dengan hulu (pegangan) dari
+    tanduk atau kayu berukir dan sarung kayu (kumpang) berhias anyaman rotan. Lebih
+    dari sekadar alat potong untuk berladang atau berburu, senjata ini memegang nilai
+    sakral yang mendalam sebagai simbol kehormatan, keberanian, status sosial, serta
+    identitas budaya yang diwariskan secara turun-temurun.

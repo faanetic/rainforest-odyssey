@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Baju adat
   itemIcon: {fileID: -6993726234353341074, guid: e2b5652dcdcdb6b4da3ed6b1bf9098c6, type: 3}
+  itemDescription: Baju tempur tradisional suku Dayak dikenal dengan nama Baju Basurat
+    atau Baju Besunung, yaitu rompi pelindung tebal berbahan kulit kayu nyamu yang
+    dirancang khusus untuk menahan serangan senjata tajam. Pakaian perang ini biasanya
+    dilengkapi dengan jimat, rajah pelindung, koin kuno, serta hiasan kulit binatang
+    buas yang dipercaya memberikan kekuatan magis dan keberanian spiritual bagi pemakainya.

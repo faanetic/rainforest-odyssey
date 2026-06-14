@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Garantong
   itemIcon: {fileID: 228663082792738388, guid: d0d2753aee9ca8945b15b3839c45089e, type: 3}
+  itemDescription: Garantung/Garantong adalah alat musik tradisional sejenis gong
+    khas suku Dayak (terutama di Kalimantan Tengah) yang terbuat dari campuran logam
+    seperti kuningan, perunggu, dan besi. Berbeda dengan gong Jawa yang memiliki
+    getaran suara panjang, garantung menghasilkan dentangan nada yang lebih pendek
+    dan dominan berfungsi sebagai pembawa melodi utama dalam ansambel musik adat.

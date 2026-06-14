@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro; // --- KODE BARU: Wajib diimport agar script mengenali TextMeshPro ---
 
 public class GalleryUI : MonoBehaviour
 {
@@ -7,14 +8,22 @@ public class GalleryUI : MonoBehaviour
     [SerializeField] private Transform galleryGridContainer; // Objek 'Content' dari Scroll View
     [SerializeField] private GameObject itemSlotPrefab;      // Prefab 'Item_Slot' dari Assets
 
+    [Header("Papan Deskripsi Kanan")]
+    // --- KODE BARU: Mengubah tipe dari 'Text' menjadi 'TextMeshProUGUI' ---
+    [SerializeField] private TextMeshProUGUI judulItemText;     
+    [SerializeField] private TextMeshProUGUI deskripsiItemText; 
+
     private void Start()
     {
         DisplayGallery();
+
+        // Atur tulisan awal saat papan galeri baru dibuka
+        if (judulItemText != null) judulItemText.text = "";
+        if (deskripsiItemText != null) deskripsiItemText.text = "Klik pada item yang telah terpajang di panel kiri untuk membaca kisah penjelasannya.";
     }
 
     public void DisplayGallery()
     {
-        // 1. Bersihkan UI lama dengan aman (menggunakan loop mundur agar index tidak kacau)
         if (galleryGridContainer != null)
         {
             for (int i = galleryGridContainer.childCount - 1; i >= 0; i--)
@@ -23,7 +32,6 @@ public class GalleryUI : MonoBehaviour
             }
         }
 
-        // 2. Cek validasi data dasar
         if (CollectionManager.Instance == null)
         {
             Debug.LogWarning("CollectionManager belum ada di scene!");
@@ -36,28 +44,37 @@ public class GalleryUI : MonoBehaviour
             return;
         }
 
-        // 3. Ambil daftar item yang sudah didapatkan pemain
         var unlockedItems = CollectionManager.Instance.myCollection;
 
-        // 4. Instansiasi objek baru secara bersih
         foreach (ItemData item in unlockedItems)
         {
             if (item == null) continue;
 
-            // Buat slot baru langsung menjadi anak dari container
             GameObject newSlot = Instantiate(itemSlotPrefab, galleryGridContainer);
             
-            // Ambil komponen Image dari slot yang BARU SAJA dibuat (bukan objek lama)
+            GallerySlot slotScript = newSlot.GetComponent<GallerySlot>();
+            if (slotScript != null)
+            {
+                slotScript.dataItemIni = item; 
+            }
+
             Image slotImage = newSlot.GetComponent<Image>();
-            
             if (slotImage != null && item.itemIcon != null)
             {
                 slotImage.sprite = item.itemIcon;
             }
             else if (slotImage == null)
             {
-                Debug.LogError("Prefab 'Item_Slot' tidak memiliki komponen UI Image! Pastikan Anda tidak salah membuat prefab.");
+                Debug.LogError("Prefab 'Item_Slot' tidak memiliki komponen UI Image!");
             }
         }
+    }
+
+    public void TampilkanTeksPapan(ItemData data)
+    {
+        if (data == null) return;
+
+        if (judulItemText != null) judulItemText.text = data.itemName;
+        if (deskripsiItemText != null) deskripsiItemText.text = data.itemDescription; 
     }
 }
