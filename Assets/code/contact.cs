@@ -13,7 +13,7 @@ public class CombatContact : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Cek apakah objek yang ditabrak adalah Player
-        if (collision.gameObject.CompareTag("player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             CharacterStats statPlayer = collision.gameObject.GetComponent<CharacterStats>();
 

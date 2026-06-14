@@ -132,6 +132,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
   moveSpeed: 1
+  jarakDeteksiDinding: 0.8
+  layerDinding:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!61 &564345807661962487
 BoxCollider2D:
   m_ObjectHideFlags: 0

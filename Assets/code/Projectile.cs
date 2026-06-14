@@ -15,7 +15,7 @@ public class Projectile : MonoBehaviour
         // 1. JIKA MENABRAK MUSUH
         if (collision.CompareTag("Enemy"))
         {
-            // Cek pencegahan jika objek ber-tag Enemy ini adalah area Spawner
+            // Pengaman khusus agar tidak meledak di area deteksi Spawner
             if (collision.GetComponent<EnemySpawner>() != null) return; 
 
             CharacterStats statEnemy = collision.GetComponent<CharacterStats>();
@@ -25,16 +25,15 @@ public class Projectile : MonoBehaviour
                 statEnemy.TerimaDamage(damagePeluru, arahDorong);
             }
 
-            Destroy(gameObject); // Hancurkan peluru
+            Destroy(gameObject); 
         }
-        // 2. JIKA MENABRAK OBJEK SOLID LAINNYA (Dinding, Batas Map, Obstacle)
+        // 2. KUNCI REVISI: JIKA MENABRAK OBJEK SOLID LINGKUNGAN (Tilemap Dinding Hutan, Batas Map)
         else
         {
-            // Pastikan objek solid yang ditabrak BUKAN area trigger (seperti spawner/item pick-up)
-            // Peluru hanya akan hancur jika menabrak collider fisik yang keras (Dinding/Dunia)
+            // Peluru hanya akan hancur jika menabrak collider fisik keras (Bukan area trigger spawner/item)
             if (collision.isTrigger == false)
             {
-                Destroy(gameObject); // Peluru hancur menabrak dinding map
+                Destroy(gameObject); 
             }
         }
     }

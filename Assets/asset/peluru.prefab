@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814b3839c4a4a254fb405a36ed9205ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  damagePeluru: 30
+  damagePeluru: 45
   durasiHidup: 3
 --- !u!50 &8070666099142216769
 Rigidbody2D:

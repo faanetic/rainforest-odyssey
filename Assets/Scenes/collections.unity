@@ -4041,7 +4041,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 886863710}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999928
+  m_Size: 0.99999243
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9323,6 +9323,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a438e90b00f68543bce480d3461459d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectionManager
+  allMasterItems:
+  - {fileID: 11400000, guid: 5f54960145af96e4a89a727ea4692ab3, type: 2}
+  - {fileID: 11400000, guid: a8b785c7e3f83f94bbe0daf615f0819d, type: 2}
+  - {fileID: 11400000, guid: a45f54bd1bc427f4683b77f7b85c74a6, type: 2}
+  - {fileID: 11400000, guid: cb503c370c1c58d41871d99ddb9a906e, type: 2}
+  - {fileID: 11400000, guid: 719f5d0228f929544aa51bd595e07319, type: 2}
   myCollection: []
 --- !u!4 &1790564562
 Transform:
@@ -9373,7 +9379,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00007910499, y: 0}
+  m_AnchoredPosition: {x: 0.00015932818, y: 0}
   m_SizeDelta: {x: -197.478, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1820820981
@@ -9612,7 +9618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GalleryUI
   galleryGridContainer: {fileID: 0}
-  itemSlotPrefab: {fileID: 3356555932340241279, guid: 004474bd70877b747ac049e774d89799, type: 3}
+  itemSlotPrefab: {fileID: 2446631954719179345, guid: 004474bd70877b747ac049e774d89799, type: 3}
   judulItemText: {fileID: 0}
   deskripsiItemText: {fileID: 0}
 --- !u!114 &1909750133

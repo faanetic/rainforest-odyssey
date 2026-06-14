@@ -61441,7 +61441,7 @@ MonoBehaviour:
   spawnRate: 3
   maxEnemies: 5
   enemyTag: Enemy
-  playerTag: player
+  playerTag: Player
   spawnRadius: 7
 --- !u!4 &1118560052
 Transform:
@@ -61728,9 +61728,9 @@ GameObject:
   - component: {fileID: 1302478725}
   - component: {fileID: 1302478724}
   - component: {fileID: 1302478726}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Rumah Coll
-  m_TagString: Untagged
+  m_TagString: coll
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66477,9 +66477,9 @@ GameObject:
   - component: {fileID: 1499860151}
   - component: {fileID: 1499860150}
   - component: {fileID: 1499860152}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Batu Kayu coll
-  m_TagString: Untagged
+  m_TagString: coll
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69300,9 +69300,9 @@ GameObject:
   - component: {fileID: 2015962399}
   - component: {fileID: 2015962398}
   - component: {fileID: 2015962400}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pohon Kecil Coll
-  m_TagString: Untagged
+  m_TagString: coll
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70076,9 +70076,9 @@ GameObject:
   - component: {fileID: 2067186545}
   - component: {fileID: 2067186544}
   - component: {fileID: 2067186546}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pohon Besar Coll
-  m_TagString: Untagged
+  m_TagString: coll
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71810,6 +71810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a438e90b00f68543bce480d3461459d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectionManager
+  allMasterItems: []
   myCollection: []
 --- !u!4 &2077784164
 Transform:
@@ -71978,6 +71979,10 @@ PrefabInstance:
     - target: {fileID: 852203665363646575, guid: 704365476625da044938a3a87809c996, type: 3}
       propertyPath: m_Name
       value: player
+      objectReference: {fileID: 0}
+    - target: {fileID: 852203665363646575, guid: 704365476625da044938a3a87809c996, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5280892006630828174, guid: 704365476625da044938a3a87809c996, type: 3}
       propertyPath: m_LocalPosition.x

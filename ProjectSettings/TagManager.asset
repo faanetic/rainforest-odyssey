@@ -7,11 +7,12 @@ TagManager:
   - Enemy
   - player
   - Spawner
+  - coll
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - coll
   - Water
   - UI
   - 

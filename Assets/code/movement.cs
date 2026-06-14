@@ -8,8 +8,6 @@ public class movement : MonoBehaviour
     public float speed = 5;
     public Rigidbody2D rb;
     public Animator anim;
-    
-    // Pastikan ini PUBLIC agar bisa dibaca oleh script PlayerAttack
     public int facingDirection = 1;
 
     [Header("Batas Gerak Player (Map Clamp)")]
@@ -45,10 +43,11 @@ public class movement : MonoBehaviour
         anim.SetFloat("moveVertical", Mathf.Abs(moveVertical));
         anim.SetFloat("moveHorizontal", Mathf.Abs(moveHorizontal));
 
-        // Hitung kecepatan awal berdasarkan input
+        // Ambil nilai kecepatan murni berdasarkan input arah keyboard
         Vector2 targetVelocity = new Vector2(moveHorizontal, moveVertical) * speed;
 
-        // Solusi anti-jitter batas gerak map
+        // KUNCI REVISI: Kunci pergerakan langsung di sistem Velocity sebelum dihitung physics.
+        // Opsi ini mencegah player bergetar (jitter) saat menyenggol batas ujung map terluar.
         if (rb.position.x <= minX && targetVelocity.x < 0) targetVelocity.x = 0;
         if (rb.position.x >= maxX && targetVelocity.x > 0) targetVelocity.x = 0;
         if (rb.position.y <= minY && targetVelocity.y < 0) targetVelocity.y = 0;
@@ -69,6 +68,7 @@ public class movement : MonoBehaviour
     {
         if (rb != null)
         {
+            // Amankan kecepatan ke nol saat terkena knockback agar tidak sliding abadi
             rb.linearVelocity = Vector2.zero;
             if (anim != null)
             {

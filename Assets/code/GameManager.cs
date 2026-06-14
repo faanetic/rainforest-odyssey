@@ -1,19 +1,15 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [Header("Player Data")]
+    [Header("Player Data Global")]
     public int currentPoints = 0;
-
-    // Menggunakan HashSet agar otomatis menolak item yang sama (tidak double)
-    public HashSet<string> itemCollections = new HashSet<string>();
 
     private void Awake()
     {
-        // Singleton pattern agar data tidak hancur saat pindah scene
+        // Setup Singleton pattern agar objek tidak hancur saat pindah scene
         if (Instance == null)
         {
             Instance = this;
@@ -43,18 +39,7 @@ public class GameManager : MonoBehaviour
         }
         return false; // Poin tidak cukup
     }
-
-    // Fungsi mentransfer item ke Scene Collection
-    public void AddItemToCollection(string itemName)
-    {
-        if (itemCollections.Contains(itemName))
-        {
-            Debug.Log($"Item '{itemName}' sudah ada di koleksi (Double). Tidak ditambahkan.");
-        }
-        else
-        {
-            itemCollections.Add(itemName);
-            Debug.Log($"Item baru berhasil ditambahkan ke Gallery: {itemName}");
-        }
-    }
+    
+    // NOTE: Fungsi AddItemToCollection(string) yang lama TELAH DIHAPUS TOTAL 
+    // karena sistem inventaris sekarang dialihkan ke CollectionManager.cs
 }

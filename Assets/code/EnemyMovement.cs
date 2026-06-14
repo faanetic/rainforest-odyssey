@@ -7,56 +7,72 @@ public class EnemyMovement : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 3f; 
 
+    [Header("Anti-Stuck Settings")]
+    [SerializeField] private float jarakDeteksiDinding = 0.8f;
+    [SerializeField] private LayerMask layerDinding; // Nanti isi dengan layer Tilemap Dinding kamu
+
     private Transform playerTransform;
     private SpriteRenderer spriteRenderer; 
     private Rigidbody2D rb; 
-    private CharacterStats stats; // Buat variabel cache agar performa lebih ringan
+    private CharacterStats stats; 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        stats = GetComponent<CharacterStats>(); // Ambil komponen stats musuh
+        stats = GetComponent<CharacterStats>(); 
+        spriteRenderer = GetComponent<SpriteRenderer>();
         
         if (rb != null) rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        GameObject playerObject = GameObject.Find("player");
+        GameObject playerObject = GameObject.Find("Player");
+        if (playerObject == null) playerObject = GameObject.Find("player");
+
         if (playerObject != null)
         {
             playerTransform = playerObject.transform;
         }
-
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void FixedUpdate() 
     {
         if (playerTransform != null && rb != null)
         {
-            // --- PERBAIKAN DI SINI: ---
-            // Cek apakah script CharacterStats ada di musuh ini
-            if (stats != null)
-            {
-                // Jika script movement dinonaktifkan (karena sedang knockback), 
-                // langsung keluar dari FixedUpdate dan jangan paksa musuh jalan maju!
-                if (!this.enabled) return; 
-            }
+            // Jika script dimatikan sementara karena knockback peluru, langsung keluar
+            if (!this.enabled) return; 
             
-            MoveTowardsPlayer();
+            MoveTowardsPlayerSmart();
         }
     }
 
-    void MoveTowardsPlayer()
+    void MoveTowardsPlayerSmart()
     {
-        Vector2 direction = (playerTransform.position - transform.position).normalized;
+        // Arah dasar menuju player
+        Vector2 arahKePlayer = (playerTransform.position - transform.position).normalized;
+        Vector2 arahJalanFinal = arahKePlayer;
 
-        rb.linearVelocity = direction * moveSpeed;
+        // Tembakkan garis imajiner (Raycast) ke depan musuh untuk mendeteksi apakah ada dinding menghalangi
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, arahKePlayer, jarakDeteksiDinding, layerDinding);
+        
+        // Garis bantuan visual di jendela Scene (Warna Merah jika tidak ada halangan)
+        Debug.DrawRay(transform.position, arahKePlayer * jarakDeteksiDinding, hit.collider != null ? Color.green : Color.red);
 
-        // LOGIKA FLIP
-        if (direction.x > 0.01f) 
+        if (hit.collider != null)
+        {
+            // KUNCI PINTAR TANPA NAVMESH: 
+            // Jika di depan ada dinding, paksa arah jalan berbelok 90 derajat (tegak lurus) 
+            // ke kiri atau kanan agar musuh melipir di pinggiran dinding dan tidak stuck mematung!
+            arahJalanFinal = Vector2.Perpendicular(arahKePlayer); 
+        }
+
+        // Terapkan kecepatan ke Rigidbody
+        rb.linearVelocity = arahJalanFinal * moveSpeed;
+
+        // LOGIKA FLIP SPRITE
+        if (arahKePlayer.x > 0.01f) 
         {
             spriteRenderer.flipX = true;
         }
-        else if (direction.x < -0.01f) 
+        else if (arahKePlayer.x < -0.01f) 
         {
             spriteRenderer.flipX = false;
         }
@@ -66,7 +82,6 @@ public class EnemyMovement : MonoBehaviour
     {
         if (rb != null)
         {
-            // Saat script dimatikan oleh efek knockback, rem total kecepatan majunya
             rb.linearVelocity = Vector2.zero;
         }
     }

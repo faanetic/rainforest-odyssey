@@ -1,29 +1,39 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // --- KODE BARU: Wajib diimport agar script mengenali TextMeshPro ---
+using System.Collections.Generic;
+using TMPro; 
 
 public class GalleryUI : MonoBehaviour
 {
-    [Header("UI Components")]
+    [Header("Komponen Grid UI")]
     [SerializeField] private Transform galleryGridContainer; // Objek 'Content' dari Scroll View
-    [SerializeField] private GameObject itemSlotPrefab;      // Prefab 'Item_Slot' dari Assets
+    [SerializeField] private GameObject itemSlotPrefab;      // Ujung masalah eror merah kamu
 
     [Header("Papan Deskripsi Kanan")]
-    // --- KODE BARU: Mengubah tipe dari 'Text' menjadi 'TextMeshProUGUI' ---
     [SerializeField] private TextMeshProUGUI judulItemText;     
     [SerializeField] private TextMeshProUGUI deskripsiItemText; 
 
     private void Start()
     {
-        DisplayGallery();
+        // Setelan awal teks papan informasi kanan
+        if (judulItemText != null) judulItemText.text = "Galeri Koleksi";
+        if (deskripsiItemText != null) deskripsiItemText.text = "Klik pada salah satu item yang telah terpajang di panel kiri untuk membaca kisah penjelasannya.";
 
-        // Atur tulisan awal saat papan galeri baru dibuka
-        if (judulItemText != null) judulItemText.text = "";
-        if (deskripsiItemText != null) deskripsiItemText.text = "Klik pada item yang telah terpajang di panel kiri untuk membaca kisah penjelasannya.";
+        // Minta data ke CollectionManager secara teratur
+        if (CollectionManager.Instance != null)
+        {
+            CollectionManager.Instance.MintaUpdateTampilanGaleri(this);
+        }
+        else
+        {
+            Debug.LogWarning("GalleryUI: CollectionManager Instance belum lahir di scene ini!");
+        }
     }
 
-    public void DisplayGallery()
+    // Fungsi pencetakan slot aman yang dipanggil oleh CollectionManager
+    public void EksekusiCetakSlot(List<ItemData> daftarKoleksi)
     {
+        // Bersihkan sisa slot lama di grid agar tidak duplikat menumpuk
         if (galleryGridContainer != null)
         {
             for (int i = galleryGridContainer.childCount - 1; i >= 0; i--)
@@ -32,21 +42,14 @@ public class GalleryUI : MonoBehaviour
             }
         }
 
-        if (CollectionManager.Instance == null)
-        {
-            Debug.LogWarning("CollectionManager belum ada di scene!");
-            return;
-        }
-
         if (itemSlotPrefab == null)
         {
-            Debug.LogError("Item Slot Prefab belum ditarik ke Inspector GalleryUI!");
+            Debug.LogError("GalleryUI: Item Slot Prefab masih kosong di Inspector! Tolong tarik file Prefab UI Slot-mu.");
             return;
         }
 
-        var unlockedItems = CollectionManager.Instance.myCollection;
-
-        foreach (ItemData item in unlockedItems)
+        // Mulai cetak otomatis tombol slot berdasarkan data achievement permanen
+        foreach (ItemData item in daftarKoleksi)
         {
             if (item == null) continue;
 
@@ -63,11 +66,8 @@ public class GalleryUI : MonoBehaviour
             {
                 slotImage.sprite = item.itemIcon;
             }
-            else if (slotImage == null)
-            {
-                Debug.LogError("Prefab 'Item_Slot' tidak memiliki komponen UI Image!");
-            }
         }
+        Debug.Log("GalleryUI: Sukses mencetak " + daftarKoleksi.Count + " item koleksi ke layar Canvas.");
     }
 
     public void TampilkanTeksPapan(ItemData data)

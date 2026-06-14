@@ -9,18 +9,15 @@ public class Chest : MonoBehaviour
     public List<ItemData> lootTable; 
     public Sprite openedChestSprite; 
 
-    // ========================================================
-    // [KODE BARU] Wadah untuk menampung prefab efek melayang
-    // ========================================================
     [Header("Efek Animasi Gacha")]
     public GameObject prefabAnimasiItem; 
-    // ========================================================
 
     private bool isOpened = false;
     private bool isPlayerNearby = false; 
 
-    private void Update()
+    void Update()
     {
+        // Deteksi tombol E hanya jika player di dekat peti dan peti belum terbuka
         if (isPlayerNearby && !isOpened && Keyboard.current.eKey.wasPressedThisFrame)
         {
             OpenChest();
@@ -29,40 +26,44 @@ public class Chest : MonoBehaviour
 
     public void OpenChest()
     {
+        // Memeriksa apakah poin cukup dan berhasil dikurangi
         if (PlayerManager.Instance != null && PlayerManager.Instance.SpendPoints(openPrice))
         {
             isOpened = true;
-            Debug.Log("Peti Berhasil Terbuka!");
+            Debug.Log("Peti Berhasil Terbuka! Koin resmi terpotong.");
 
+            // ========================================================
+            // KUNCI PERBAIKAN: Perintahkan Audio berbunyi DI SINI
+            // ========================================================
+            ChestAudio komponenAudio = GetComponent<ChestAudio>();
+            if (komponenAudio != null)
+            {
+                komponenAudio.MainkanSuaraPeti();
+            }
+            // ========================================================
+
+            // Logika mengundi item dari loot table
             if (lootTable != null && lootTable.Count > 0)
             {
                 int randomIndex = Random.Range(0, lootTable.Count);
                 ItemData itemDapat = lootTable[randomIndex];
-                Debug.Log("Kamu mendapatkan item: " + itemDapat.itemName);
 
-                // ========================================================
-                // [KODE BARU] Logika melahirkan animasi item di atas peti
-                // ========================================================
+                // Lahirkan efek visual item melayang ke atas peti
                 if (prefabAnimasiItem != null)
                 {
-                    // Tentukan posisi muncul: di atas peti sedikit (Y + 0.5f)
-                    // Dan Z: -0.1f agar gambar item berdiri di DEPAN peti (tidak tertutup/di belakang peti)
                     Vector3 posisiSpawn = transform.position + new Vector3(0, 0.5f, -0.1f);
-
-                    // Lahirkan objek animasinya di map
                     GameObject objekAnimasi = Instantiate(prefabAnimasiItem, posisiSpawn, Quaternion.identity);
-
-                    // Perintahkan objek tersebut memasang gambar item terkait lalu mulai bergerak melayang
                     objekAnimasi.GetComponent<DroppedItemAnimation>().MulaiAnimasi(itemDapat.itemIcon);
                 }
-                // ========================================================
 
+                // Masukkan data ke CollectionManager galeri
                 if (CollectionManager.Instance != null)
                 {
                     CollectionManager.Instance.AddToCollection(itemDapat);
                 }
             }
 
+            // Ubah sprite peti menjadi terbuka
             if (openedChestSprite != null)
             {
                 GetComponent<SpriteRenderer>().sprite = openedChestSprite;
@@ -70,13 +71,15 @@ public class Chest : MonoBehaviour
         }
         else
         {
-            Debug.Log("Poin kurang atau PlayerManager belum siap.");
+            // Jika masuk ke sini, artinya poin kurang. Skrip berhenti dan SUARA TIDAK AKAN BERBUNYI
+            Debug.Log("Poin kurang! Gacha dibatalkan, suara hantu berhasil dicegah.");
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("player"))
+        // Sinkronisasi Tag menggunakan huruf "Player" (P besar)
+        if (collision.CompareTag("Player"))
         {
             isPlayerNearby = true;
             Debug.Log("Player dekat peti. Tekan 'E' untuk membuka.");
@@ -85,7 +88,7 @@ public class Chest : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("player"))
+        if (collision.CompareTag("Player"))
         {
             isPlayerNearby = false;
             Debug.Log("Player menjauh.");

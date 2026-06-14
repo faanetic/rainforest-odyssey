@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem; 
 
 public class PlayerAttackAudio : MonoBehaviour
 {
@@ -7,30 +6,24 @@ public class PlayerAttackAudio : MonoBehaviour
     public AudioClip attackSound;
 
     [Header("Pengaturan Volume Ekstra")]
-    // Angka 2.0f berarti suara serangan ini akan dipaksa 2x lipat lebih keras dari BGM
     public float pengerasSuara = 2.0f; 
 
     void Start()
     {
         if (sfxAudio != null)
         {
-            // Tetap mengambil dasar memori volume dari slider Settings
+            // Ambil dasar memori volume dari slider Settings secara global
             sfxAudio.volume = PlayerPrefs.GetFloat("VolumeGlobal", 1f);
         }
     }
 
-    void Update()
+    // KUNCI REVISI: Fungsi diubah menjadi Public dan Pasif. 
+    // Hanya akan berbunyi jika dipanggil oleh skrip PlayerAttack!
+    public void MainkanSuaraTembakan()
     {
-        if (Mouse.current != null)
+        if (sfxAudio != null && attackSound != null)
         {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
-            {
-                if (sfxAudio != null && attackSound != null)
-                {
-                    // Triknya di sini: Kita masukkan 'pengerasSuara' sebagai pengali
-                    sfxAudio.PlayOneShot(attackSound, pengerasSuara);
-                }
-            }
+            sfxAudio.PlayOneShot(attackSound, pengerasSuara);
         }
     }
 }

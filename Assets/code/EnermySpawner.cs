@@ -1,18 +1,17 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawner Settings")]
-    // 1. DIUBAH MENJADI ARRAY: Sekarang kamu bisa memasukkan lebih dari 1 prefab musuh
     [SerializeField] private GameObject[] enemyPrefabs; 
     [SerializeField] private float spawnRate = 3f;    
     [SerializeField] private int maxEnemies = 5; 
     [SerializeField] private string enemyTag = "Enemy"; 
 
     [Header("Player Detection Settings")]
-    [SerializeField] private string playerTag = "player"; 
+    // KUNCI REVISI: Pastikan default-nya di script langsung menggunakan "Player" (P Besar)
+    [SerializeField] private string playerTag = "Player"; 
     [SerializeField] private float spawnRadius = 5f;      
 
     private float nextSpawnTime = 0f;
@@ -35,27 +34,25 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        // Pengecekan keamanan: Jika kamu lupa memasukkan prefab di Inspector, kode tidak akan error
         if (enemyPrefabs == null || enemyPrefabs.Length == 0)
         {
             Debug.LogWarning("EnemySpawner: Belum ada Prefab musuh yang dimasukkan ke dalam Array!");
             return;
         }
 
-        // 2. LOGIKA ACAK: Memilih indeks secara acak dari prefab yang tersedia
         int randomIndex = Random.Range(0, enemyPrefabs.Length);
         GameObject selectedEnemyPrefab = enemyPrefabs[randomIndex];
 
-        // Memunculkan enemy yang terpilih secara acak di dalam area radius lingkaran spawner
         Vector2 randomPoint = (Vector2)transform.position + Random.insideUnitCircle * spawnRadius;
         Instantiate(selectedEnemyPrefab, randomPoint, Quaternion.identity);
     }
 
+    // KUNCI REVISI: Menggunakan CompareTag("Player") jauh lebih aman dan akurat dibanding mengecek nama teks objek
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Contains("player"))
+        if (collision.CompareTag(playerTag))
         {
-            Debug.Log("LOG: Objek bernama Player VALID! Spawner mulai aktif.");
+            Debug.Log("LOG: Player VALID memasuki area! Spawner mulai aktif.");
             isPlayerInRange = true;
             nextSpawnTime = Time.time; 
         }
@@ -63,9 +60,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Contains("player"))
+        if (collision.CompareTag(playerTag))
         {
-            Debug.Log("LOG: Objek bernama Player keluar area. Spawner nonaktif.");
+            Debug.Log("LOG: Player keluar area. Spawner nonaktif.");
             isPlayerInRange = false;
         }
     }
